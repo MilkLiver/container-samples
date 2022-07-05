@@ -9,5 +9,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: deploy-test-svc
-              servicePort: 12345
+              service:
+                name: deploy-test-svc
+                port:
+                  number: 12345

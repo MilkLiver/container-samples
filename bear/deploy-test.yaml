@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-test-deploy
+  labels:
+    name: bear
+    app: deploy-test
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: deploy-test
+
+  template:
+    metadata:
+      labels:
+        app: deploy-test
+    spec:
+      containers:
+        - name: deploy-test-springboot
+          image: docker.io/milkliver/deploy-test
+          workingDir: /testfiles
+          command:
+            [
+              "/bin/java",
+              "-jar",
+              "-Dspring.config.location=/configs/application.properties",
+              "deploy-test.jar",
+            ]
+          ports:
+            - name: deploy-test
+              containerPort: 9527
+              protocol: TCP
+          volumeMounts:
+            - name: java-properties
+              mountPath: /configs
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: java-properties
+          configMap:
+            name: deploy-test-config
+            items:
+              - key: application.properties
+                path: application.properties

@@ -1,0 +1,14 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: deploy-test-route
+  labels:
+    app: deploy-test
+spec:
+  to:
+    kind: Service
+    name: deploy-test-svc
+    weight: 100
+  port:
+    targetPort: 12345
+  wildcardPolicy: None

@@ -21,14 +21,6 @@ spec:
       containers:
         - name: deploy-test-springboot
           image: docker.io/milkliver/deploy-test
-          workingDir: /testfiles
-          command:
-            [
-              "/bin/java",
-              "-jar",
-              "-Dspring.config.location=/configs/application.properties",
-              "deploy-test.jar",
-            ]
           ports:
             - name: deploy-test
               containerPort: 9527
